@@ -3975,6 +3975,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "let_expression"
+        },
+        {
+          "type": "SYMBOL",
           "name": "exists_block"
         },
         {
@@ -4070,6 +4074,113 @@
           {
             "type": "STRING",
             "value": "]"
+          }
+        ]
+      }
+    },
+    "let_expression": {
+      "type": "PREC",
+      "value": 6,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "word",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "let_expression_item"
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "STRING",
+                      "value": ","
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "let_expression_item"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[iI][nN]"
+                }
+              }
+            },
+            "named": false,
+            "value": "IN"
+          },
+          {
+            "type": "FIELD",
+            "name": "body",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "PATTERN",
+                  "value": "[eE][nN][dD]"
+                }
+              }
+            },
+            "named": false,
+            "value": "END"
+          }
+        ]
+      }
+    },
+    "let_expression_item": {
+      "type": "PREC",
+      "value": 6,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_name"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expression"
           }
         ]
       }

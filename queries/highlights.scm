@@ -129,6 +129,7 @@
 (path_constructor name: (identifier) @function.builtin)
 (exists_block name: (identifier) @keyword)
 (value_block name: (identifier) @keyword)
+(let_expression word: (identifier) @keyword)
 (variable) @variable
 (property_access property: (identifier) @property)
 (property_map key: (identifier) @property)
