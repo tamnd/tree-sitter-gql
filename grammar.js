@@ -104,7 +104,10 @@ module.exports = grammar({
       choice(
         kw("CURRENT_PROPERTY_GRAPH"),
         kw("CURRENT_GRAPH"),
+        kw("HOME_PROPERTY_GRAPH"),
+        kw("HOME_GRAPH"),
         seq(optional(seq(optional(kw("PROPERTY")), kw("GRAPH"))), $.graph_name),
+        seq(optional(seq(optional(kw("PROPERTY")), kw("GRAPH"))), $.parameter),
       ),
 
     _reading_clause: ($) =>
@@ -484,6 +487,8 @@ module.exports = grammar({
         $.case_expression,
         $.case_abbreviation,
         $.path_constructor,
+        $.graph_reference,
+        $.reference_parameter,
         $.exists_block,
         $.parenthesized_expression,
         $.list,
@@ -501,6 +506,41 @@ module.exports = grammar({
     // for the shape of the text.
     path_constructor: ($) =>
       prec(2, seq(field("name", $.identifier), "[", optional(commaSep1($._expression)), "]")),
+
+    // GE01. A graph written where a value goes, ISO 19.6. The four
+    // words are whole references on their own, so nothing follows them
+    // and nothing else can be read out of them, which is why they are
+    // spelled as keywords here.
+    //
+    // A graph named rather than referred to is written as the path it
+    // is at, and the path is the whole of it. A `USE` also takes the
+    // name on its own and takes `GRAPH` in front of it, and neither of
+    // those can stand in an expression: a bare name is a variable, and
+    // a word with a path behind it is a division as often as it is a
+    // graph, since `graph / n` is one and `graph /n` is the other and
+    // no reader can see the difference.
+    graph_reference: ($) =>
+      choice(
+        kw("CURRENT_PROPERTY_GRAPH"),
+        kw("CURRENT_GRAPH"),
+        kw("HOME_PROPERTY_GRAPH"),
+        kw("HOME_GRAPH"),
+        $.graph_path,
+      ),
+
+    // The path takes every segment somebody wrote, which is what
+    // `prec.right` is saying: `/a/b` is one graph in one schema and
+    // not a graph divided by a name, and the engine's parser reads it
+    // the same way, by taking segments for as long as slashes follow.
+    graph_path: ($) => prec.right(seq("/", repeat(seq($._name, "/")), $._name)),
+
+    // GE01 and GE02, the reference a caller passed in. `GRAPH $g` and
+    // `BINDING TABLE $t` say which of the two reference types the
+    // parameter is expected to hold and nothing else, the way
+    // `USE GRAPH $g` says nothing `USE $g` does not. The `$` behind
+    // the words is what makes them readable here.
+    reference_parameter: ($) =>
+      seq(optional($.identifier), field("name", $.identifier), $.parameter),
 
     // A match written where a predicate goes. The bracket is what
     // tells it apart from a variable called exists.
