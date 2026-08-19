@@ -51,6 +51,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -157,6 +161,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -252,6 +260,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -343,6 +355,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -431,6 +447,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -776,6 +796,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -884,6 +908,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -1104,6 +1132,75 @@
     }
   },
   {
+    "type": "interval_field",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "interval_literal",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interval_qualifier",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interval_precision",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "integer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "interval_qualifier",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "interval_field",
+          "named": true
+        },
+        {
+          "type": "interval_precision",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "is_expression",
     "named": true,
     "fields": {},
@@ -1137,6 +1234,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -1322,6 +1423,10 @@
             "named": true
           },
           {
+            "type": "interval_literal",
+            "named": true
+          },
+          {
             "type": "is_expression",
             "named": true
           },
@@ -1449,6 +1554,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1555,6 +1664,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1643,6 +1756,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -1835,6 +1952,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -1992,6 +2113,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2083,6 +2208,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2171,6 +2300,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -2319,6 +2452,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -2494,6 +2631,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2600,6 +2741,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -2703,6 +2848,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -3029,6 +3178,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -3284,6 +3437,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -3380,6 +3537,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -3643,6 +3804,10 @@
           "named": true
         },
         {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
           "type": "is_expression",
           "named": true
         },
@@ -3746,6 +3911,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -3928,6 +4097,10 @@
         },
         {
           "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
           "named": true
         },
         {
@@ -4207,6 +4380,10 @@
     "named": false
   },
   {
+    "type": "DAY",
+    "named": false
+  },
+  {
     "type": "DELETE",
     "named": false
   },
@@ -4311,6 +4488,10 @@
     "named": false
   },
   {
+    "type": "HOUR",
+    "named": false
+  },
+  {
     "type": "IF",
     "named": false
   },
@@ -4356,6 +4537,14 @@
   },
   {
     "type": "MATCH",
+    "named": false
+  },
+  {
+    "type": "MINUTE",
+    "named": false
+  },
+  {
+    "type": "MONTH",
     "named": false
   },
   {
@@ -4451,6 +4640,10 @@
     "named": false
   },
   {
+    "type": "SECOND",
+    "named": false
+  },
+  {
     "type": "SET",
     "named": false
   },
@@ -4476,6 +4669,10 @@
   },
   {
     "type": "THEN",
+    "named": false
+  },
+  {
+    "type": "TO",
     "named": false
   },
   {
@@ -4524,6 +4721,10 @@
   },
   {
     "type": "XOR",
+    "named": false
+  },
+  {
+    "type": "YEAR",
     "named": false
   },
   {

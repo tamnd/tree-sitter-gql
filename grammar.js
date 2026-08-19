@@ -14,7 +14,7 @@
 //
 // It is written from `docs/grammar.ebnf`, production by production, and
 // checked against the engine by parsing every query in the conformance
-// corpus: 987 statements the engine accepts, which must not hold an
+// corpus: 1012 statements the engine accepts, which must not hold an
 // error node here. That is the whole gate. A grammar checked only by
 // its own test corpus is a grammar that agrees with its author.
 //
@@ -62,7 +62,15 @@ module.exports = grammar({
   // fixed lookahead can see settles that, so both are carried until it
   // is settled, and the dynamic precedence on the predicate decides the
   // text that stays ambiguous to the end in favour of the call.
-  conflicts: ($) => [[$.exists_block, $._name]],
+  conflicts: ($) => [
+    [$.exists_block, $._name],
+    // The sign an interval literal may write in front of its string
+    // is the same character an addition writes between two
+    // expressions, so a name with a sign behind it is carried both as
+    // a type name and as a variable read until the string, or
+    // something that is not one, arrives.
+    [$.type_name, $._name],
+  ],
 
   rules: {
     source_file: ($) =>
@@ -481,6 +489,7 @@ module.exports = grammar({
       choice(
         $.literal,
         $.temporal_literal,
+        $.interval_literal,
         $.parameter,
         $.function_call,
         $.cast,
@@ -865,6 +874,40 @@ module.exports = grammar({
     // The name may be two words, because LOCAL and ZONED are halves of
     // a name rather than names of their own.
     temporal_literal: ($) => prec(2, seq(field("type", $.type_name), $.string)),
+
+    // The SQL spelling of a duration, where the qualifier behind the
+    // string is what says how to read it: `'1-2'` is a year and two
+    // months under `YEAR TO MONTH` and is no duration at all under
+    // `DAY`. So the qualifier is required, and the word in front is
+    // written the way `DATE` is, as a name rather than a keyword, since
+    // `INTERVAL` is a variable name right up until a whole literal
+    // follows it.
+    //
+    // The six field words are keywords, which costs nothing: the only
+    // place they are read is behind an interval string, and a variable
+    // never stands there.
+    interval_literal: ($) =>
+      prec(
+        2,
+        seq(
+          field("type", $.type_name),
+          optional(choice("+", "-")),
+          $.string,
+          $.interval_qualifier,
+        ),
+      ),
+
+    interval_qualifier: ($) =>
+      seq(
+        $.interval_field,
+        optional($.interval_precision),
+        optional(seq(kw("TO"), $.interval_field, optional($.interval_precision))),
+      ),
+
+    interval_field: ($) =>
+      choice(kw("YEAR"), kw("MONTH"), kw("DAY"), kw("HOUR"), kw("MINUTE"), kw("SECOND")),
+
+    interval_precision: ($) => seq("(", $.integer, optional(seq(",", $.integer)), ")"),
 
     // The digits of a number may be grouped with an underscore, which
     // stands between two digits and, where a prefix has already said the
