@@ -107,6 +107,11 @@
   "MINUTE"
   "SECOND"
   "TO"
+  "NORMALIZED"
+  "NFC"
+  "NFD"
+  "NFKC"
+  "NFKD"
 ] @keyword
 
 ; literals
@@ -119,6 +124,7 @@
 ; functions
 [
   "ELEMENTS"
+  "NORMALIZE"
 ] @function.builtin
 
 ; The rest is the shape of the tree rather than a list of words. A name is a

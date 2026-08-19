@@ -470,12 +470,14 @@ module.exports = grammar({
           $._expression,
           kw("IS"),
           optional(kw("NOT")),
-          // The word behind IS is what tells the five readings
-          // apart: the null test, the type test, and the three
-          // pattern predicates (G110, G111, G112).
+          // The word behind IS is what tells the six readings
+          // apart: the null test, the type test, the normalization
+          // test (ISO 19.7), and the three pattern predicates
+          // (G110, G111, G112).
           choice(
             kw("NULL"),
             seq(kw("TYPED"), $.value_type),
+            seq(kw("NORMALIZED"), optional($.normal_form)),
             kw("DIRECTED"),
             seq(kw("LABELED"), $.label_expr),
             seq(choice(kw("SOURCE"), kw("DESTINATION")), kw("OF"), $._expression),
@@ -493,6 +495,7 @@ module.exports = grammar({
         $.parameter,
         $.function_call,
         $.cast,
+        $.normalize,
         $.case_expression,
         $.case_abbreviation,
         $.path_constructor,
@@ -630,6 +633,15 @@ module.exports = grammar({
       ),
 
     cast: ($) => seq(kw("CAST"), "(", $._expression, kw("AS"), $.value_type, ")"),
+
+    // ISO 20.24. Written exactly as a call is written and given a rule
+    // of its own for the reason CAST has one: the second argument
+    // names a normal form, which is a word rather than a value, and
+    // reading it as an expression would make NFC a variable.
+    normalize: ($) =>
+      seq(kw("NORMALIZE"), "(", $._expression, optional(seq(",", $.normal_form)), ")"),
+
+    normal_form: ($) => choice(kw("NFC"), kw("NFD"), kw("NFKC"), kw("NFKD")),
 
     // GE01. The value before the first WHEN is what tells the simple
     // form from the searched one, and there is nothing to choose
