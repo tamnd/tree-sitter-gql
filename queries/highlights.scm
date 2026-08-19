@@ -10,6 +10,8 @@
   "MATCH"
   "OFFSET"
   "UNWIND"
+  "FILTER"
+  "LET"
   "WITH"
   "WHERE"
   "RETURN"

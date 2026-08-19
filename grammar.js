@@ -14,7 +14,7 @@
 //
 // It is written from `docs/grammar.ebnf`, production by production, and
 // checked against the engine by parsing every query in the conformance
-// corpus: 981 statements the engine accepts, which must not hold an
+// corpus: 987 statements the engine accepts, which must not hold an
 // error node here. That is the whole gate. A grammar checked only by
 // its own test corpus is a grammar that agrees with its author.
 //
@@ -116,6 +116,8 @@ module.exports = grammar({
         $.delete_clause,
         $.call_clause,
         $.unwind_clause,
+        $.let_clause,
+        $.filter_clause,
         $.with_clause,
         $.order_by_and_page,
       ),
@@ -206,6 +208,17 @@ module.exports = grammar({
       seq(field("name", $._name), optional(seq(kw("AS"), field("alias", $._name)))),
 
     unwind_clause: ($) => seq(kw("UNWIND"), $._expression, kw("AS"), field("name", $._name)),
+
+    // ISO 14.6. The two GQL clauses that Cypher writes as a WITH and a
+    // WHERE, split so that each does one thing: a LET adds a name and
+    // keeps every name already bound, a FILTER keeps rows and binds
+    // nothing. The WHERE after FILTER is the standard's own optional
+    // word and says nothing the FILTER has not.
+    let_clause: ($) => seq(kw("LET"), commaSep1($.let_item)),
+
+    let_item: ($) => seq(field("name", $._name), "=", $._expression),
+
+    filter_clause: ($) => seq(kw("FILTER"), optional(kw("WHERE")), $._expression),
 
     with_clause: ($) => seq(kw("WITH"), $.projection, optional($.where_clause)),
 
@@ -567,7 +580,16 @@ module.exports = grammar({
 
     list: ($) => seq("[", optional(commaSep1($._expression)), "]"),
 
-    record: ($) => $.property_map,
+    // ISO 20.19 lets the record name the type it is building, the way
+    // 20.17 lets a list name its own. The list side of that needs no
+    // rule of its own: `LIST [1, 2]` is a name with a bracket after
+    // it, which is what `path_constructor` above already is.
+    //
+    // The name is written as an identifier and not as the keyword for
+    // the reason it is there: it is a name until a brace follows it,
+    // and spelling it as a keyword would take `record` away from every
+    // query that binds a variable of that name.
+    record: ($) => seq(optional(field("name", $.identifier)), $.property_map),
 
     // Value types.
 
