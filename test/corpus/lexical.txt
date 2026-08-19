@@ -116,3 +116,56 @@ MATCH (`odd name`:`Odd Label`) RETURN `odd name` AS `the answer`
           (variable
             (quoted_identifier))
           (quoted_identifier))))))
+
+================================================================================
+The third comment form, and the digits of a long number
+================================================================================
+
+-- what this query is for
+RETURN 1_000_000 AS n, 0xF_F AS h, 1_0.5_0 AS f -- and what it answers
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (literal
+            (integer))
+          (identifier))
+        (projection_item
+          (literal
+            (integer))
+          (identifier))
+        (projection_item
+          (literal
+            (float))
+          (identifier)))))
+  (comment))
+
+================================================================================
+A name and a string that hold the characters a lexer would take
+================================================================================
+
+RETURN 1 AS `odd``name`, 'it''s' AS s, @`raw\name` AS r
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (literal
+            (integer))
+          (quoted_identifier))
+        (projection_item
+          (literal
+            (string))
+          (identifier))
+        (projection_item
+          (variable
+            (quoted_identifier))
+          (identifier))))))

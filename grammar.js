@@ -844,7 +844,16 @@ module.exports = grammar({
 
     identifier: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
 
-    quoted_identifier: ($) => seq("`", /[^`]*/, "`"),
+    // A delimited name is quoted the way a string is (ISO 21.3): the
+    // accent may be doubled to mean itself, the escapes are the same
+    // escapes, and an `@` in front turns them off.
+    quoted_identifier: ($) =>
+      token(
+        choice(
+          seq("`", repeat(choice(/[^`\\]/, /\\./, "``")), "`"),
+          seq("@`", repeat(choice(/[^`]/, "``")), "`"),
+        ),
+      ),
 
     parameter: ($) => /\$[A-Za-z0-9_]+/,
 
@@ -857,14 +866,25 @@ module.exports = grammar({
     // a name rather than names of their own.
     temporal_literal: ($) => prec(2, seq(field("type", $.type_name), $.string)),
 
-    integer: ($) => token(choice(/[0-9]+[Mm]?/, /0[xX][0-9a-fA-F]+/, /0[oO][0-7]+/, /0[bB][01]+/)),
+    // The digits of a number may be grouped with an underscore, which
+    // stands between two digits and, where a prefix has already said the
+    // number began, in front of the first one as well.
+    integer: ($) =>
+      token(
+        choice(
+          /[0-9](_?[0-9])*[Mm]?/,
+          /0[xX](_?[0-9a-fA-F])+/,
+          /0[oO](_?[0-7])+/,
+          /0[bB](_?[01])+/,
+        ),
+      ),
 
     float: ($) =>
       token(
         choice(
-          /[0-9]+\.[0-9]+([eE][+-]?[0-9]+)?[MmFfDd]?/,
-          /[0-9]+[eE][+-]?[0-9]+[MmFfDd]?/,
-          /[0-9]+[FfDd]/,
+          /[0-9](_?[0-9])*\.[0-9](_?[0-9])*([eE][+-]?[0-9](_?[0-9])*)?[MmFfDd]?/,
+          /[0-9](_?[0-9])*[eE][+-]?[0-9](_?[0-9])*[MmFfDd]?/,
+          /[0-9](_?[0-9])*[FfDd]/,
         ),
       ),
 
@@ -873,14 +893,25 @@ module.exports = grammar({
     string: ($) =>
       token(
         choice(
-          seq("'", repeat(choice(/[^'\\]/, /\\./)), "'"),
-          seq('"', repeat(choice(/[^"\\]/, /\\./)), '"'),
+          seq("'", repeat(choice(/[^'\\]/, /\\./, "''")), "'"),
+          seq('"', repeat(choice(/[^"\\]/, /\\./, '""')), '"'),
           seq("@'", repeat(choice(/[^']/, "''")), "'"),
           seq('@"', repeat(choice(/[^"]/, '""')), '"'),
         ),
       ),
 
-    comment: ($) => token(choice(seq("//", /[^\n]*/), seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"))),
+    // A line comment opens with two solidi or with two minus signs
+    // (GB03 and GB02), which is why an undirected edge is written with
+    // one minus sign and not the two Cypher writes it with: those are
+    // the same characters and the standard reads them as a comment.
+    comment: ($) =>
+      token(
+        choice(
+          seq("//", /[^\n]*/),
+          seq("--", /[^\n]*/),
+          seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"),
+        ),
+      ),
   },
 });
 

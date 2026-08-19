@@ -2888,11 +2888,6 @@
     }
   },
   {
-    "type": "quoted_identifier",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "record",
     "named": true,
     "fields": {
@@ -4544,10 +4539,6 @@
     "named": false
   },
   {
-    "type": "`",
-    "named": false
-  },
-  {
     "type": "comment",
     "named": true,
     "extra": true
@@ -4566,6 +4557,10 @@
   },
   {
     "type": "parameter",
+    "named": true
+  },
+  {
+    "type": "quoted_identifier",
     "named": true
   },
   {
