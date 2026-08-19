@@ -3798,6 +3798,39 @@
                 ]
               },
               {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "TOKEN",
+                      "content": {
+                        "type": "PREC",
+                        "value": 1,
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "[nN][oO][rR][mM][aA][lL][iI][zZ][eE][dD]"
+                        }
+                      }
+                    },
+                    "named": false,
+                    "value": "NORMALIZED"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "normal_form"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
                 "type": "ALIAS",
                 "content": {
                   "type": "TOKEN",
@@ -3956,6 +3989,10 @@
         {
           "type": "SYMBOL",
           "name": "cast"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "normalize"
         },
         {
           "type": "SYMBOL",
@@ -4594,6 +4631,129 @@
         {
           "type": "STRING",
           "value": ")"
+        }
+      ]
+    },
+    "normalize": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[nN][oO][rR][mM][aA][lL][iI][zZ][eE]"
+              }
+            }
+          },
+          "named": false,
+          "value": "NORMALIZE"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_expression"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "normal_form"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "normal_form": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[nN][fF][cC]"
+              }
+            }
+          },
+          "named": false,
+          "value": "NFC"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[nN][fF][dD]"
+              }
+            }
+          },
+          "named": false,
+          "value": "NFD"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[nN][fF][kK][cC]"
+              }
+            }
+          },
+          "named": false,
+          "value": "NFKC"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[nN][fF][kK][dD]"
+              }
+            }
+          },
+          "named": false,
+          "value": "NFKD"
         }
       ]
     },

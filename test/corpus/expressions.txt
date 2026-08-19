@@ -755,3 +755,39 @@ RETURN INTERVAL '1-2' YEAR TO MONTH AS y, INTERVAL -'3 04:05:06' DAY TO SECOND A
                 (integer)
                 (integer))))
           alias: (identifier))))))
+
+================================================================================
+Normalization, written as a call and written as a predicate
+================================================================================
+
+RETURN NORMALIZE(n.name, NFKC) AS c, NORMALIZE(n.name) AS d, n.name IS NOT NORMALIZED NFD AS e
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (normalize
+            (property_access
+              (variable
+                (identifier))
+              property: (identifier))
+            (normal_form))
+          alias: (identifier))
+        (projection_item
+          (normalize
+            (property_access
+              (variable
+                (identifier))
+              property: (identifier)))
+          alias: (identifier))
+        (projection_item
+          (is_expression
+            (property_access
+              (variable
+                (identifier))
+              property: (identifier))
+            (normal_form))
+          alias: (identifier))))))

@@ -71,6 +71,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -181,6 +185,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -280,6 +288,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -375,6 +387,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -467,6 +483,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -816,6 +836,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -928,6 +952,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -1261,6 +1289,14 @@
           "named": true
         },
         {
+          "type": "normal_form",
+          "named": true
+        },
+        {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -1443,6 +1479,10 @@
             "named": true
           },
           {
+            "type": "normalize",
+            "named": true
+          },
+          {
             "type": "parameter",
             "named": true
           },
@@ -1574,6 +1614,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -1684,6 +1728,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -1776,6 +1824,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -1976,6 +2028,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -2028,6 +2084,114 @@
       "types": [
         {
           "type": "type_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "normal_form",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "normalize",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "case_abbreviation",
+          "named": true
+        },
+        {
+          "type": "case_expression",
+          "named": true
+        },
+        {
+          "type": "cast",
+          "named": true
+        },
+        {
+          "type": "exists_block",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "graph_reference",
+          "named": true
+        },
+        {
+          "type": "interval_literal",
+          "named": true
+        },
+        {
+          "type": "is_expression",
+          "named": true
+        },
+        {
+          "type": "let_expression",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normal_form",
+          "named": true
+        },
+        {
+          "type": "normalize",
+          "named": true
+        },
+        {
+          "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        },
+        {
+          "type": "path_constructor",
+          "named": true
+        },
+        {
+          "type": "property_access",
+          "named": true
+        },
+        {
+          "type": "record",
+          "named": true
+        },
+        {
+          "type": "reference_parameter",
+          "named": true
+        },
+        {
+          "type": "temporal_literal",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "variable",
           "named": true
         }
       ]
@@ -2133,6 +2297,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -2228,6 +2396,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -2320,6 +2492,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -2472,6 +2648,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -2651,6 +2831,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -2761,6 +2945,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -2868,6 +3056,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -3202,6 +3394,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -3461,6 +3657,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -3557,6 +3757,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -3824,6 +4028,10 @@
           "named": true
         },
         {
+          "type": "normalize",
+          "named": true
+        },
+        {
           "type": "parameter",
           "named": true
         },
@@ -3931,6 +4139,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -4117,6 +4329,10 @@
         },
         {
           "type": "literal",
+          "named": true
+        },
+        {
+          "type": "normalize",
           "named": true
         },
         {
@@ -4548,6 +4764,22 @@
     "named": false
   },
   {
+    "type": "NFC",
+    "named": false
+  },
+  {
+    "type": "NFD",
+    "named": false
+  },
+  {
+    "type": "NFKC",
+    "named": false
+  },
+  {
+    "type": "NFKD",
+    "named": false
+  },
+  {
     "type": "NO",
     "named": false
   },
@@ -4557,6 +4789,14 @@
   },
   {
     "type": "NODETACH",
+    "named": false
+  },
+  {
+    "type": "NORMALIZE",
+    "named": false
+  },
+  {
+    "type": "NORMALIZED",
     "named": false
   },
   {
