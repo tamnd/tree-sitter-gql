@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  grammar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # The engine, because the two checks that matter here both need
+      # it: the conformance corpus is read with the engine's own reader,
+      # and the highlight query is written from the engine's word list.
+      # Tracking main rather than pinning a commit, on purpose. A pin
+      # would mean this grammar agreed with a zu that nobody runs any
+      # more, and a grammar that lags the language is the failure this
+      # job exists to catch.
+      - uses: actions/checkout@v7
+        with:
+          repository: tamnd/zu
+          path: zu
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: zu
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      # The parser is generated from grammar.js and committed, because
+      # an editor package builds from the C rather than from the CLI.
+      # Regenerating it here is what keeps the committed C derived: a
+      # grammar edited without regenerating fails on the diff.
+      - run: npm run generate
+      - run: git diff --exit-code
+      # One word list, three highlighters, and this is the highlighter
+      # that lives away from the list. The check runs both ways: every
+      # keyword grammar.js spells has to be a word zu knows, and the
+      # committed highlight query has to be the one that list writes.
+      - run: cargo run -p xtask -- grammar --check
+        working-directory: zu
+        env:
+          ZU_TREE_SITTER: ${{ github.workspace }}
+      - run: git diff --exit-code
+      # The corpus is the gate. Every statement the engine answers has
+      # to parse with no error node, and every statement it answers with
+      # a syntax error has to fail to parse, which is the half a grammar
+      # that accepts everything would pass.
+      - run: npm test
+        env:
+          ZU_ROOT: ${{ github.workspace }}/zu

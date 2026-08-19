@@ -1,0 +1,20 @@
+{
+  "name": "tree-sitter-gql",
+  "version": "0.1.0",
+  "private": true,
+  "description": "zuQL, the GQL dialect the zu engine speaks, as a tree-sitter grammar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamnd/tree-sitter-gql.git"
+  },
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "npm run generate && npm run grammar && npm run corpus",
+    "grammar": "tree-sitter test",
+    "corpus": "node corpus.mjs"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "0.25.10"
+  }
+}

@@ -1,0 +1,7 @@
+node_modules/
+# Where the corpus check stages the statements it reads out of zu.
+/target
+.DS_Store
+# CI clones the engine here, and a person may well do the same rather
+# than keeping it beside this one.
+/zu

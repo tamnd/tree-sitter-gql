@@ -16,7 +16,7 @@
     "description": "zuQL, the GQL dialect the zu engine speaks",
     "authors": [{ "name": "the zu authors" }],
     "links": {
-      "repository": "https://github.com/tamnd/zu"
+      "repository": "https://github.com/tamnd/tree-sitter-gql"
     }
   },
   "bindings": {
