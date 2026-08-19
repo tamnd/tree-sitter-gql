@@ -135,6 +135,7 @@ MATCH (p:Person) FINISH
               (label
                 (identifier)))))))
     (finish_clause)))
+
 ================================================================================
 An optional match keeps the row it did not match
 ================================================================================
@@ -296,6 +297,72 @@ MATCH (p) RETURN p; MATCH (q) RETURN q
         (path
           (node
             (identifier)))))
+    (return_clause
+      (projection
+        (projection_item
+          (variable
+            (identifier)))))))
+
+================================================================================
+A constructor that names the type it is building
+================================================================================
+
+RETURN LIST [1, 2] AS l, RECORD {a: 1} AS r
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (path_constructor
+            (identifier)
+            (literal
+              (integer))
+            (literal
+              (integer)))
+          (identifier))
+        (projection_item
+          (record
+            (identifier)
+            (property_map
+              (identifier)
+              (literal
+                (integer))))
+          (identifier))))))
+
+================================================================================
+A name added and rows kept, without a projection between them
+================================================================================
+
+MATCH (a) LET n = a.id + 1 FILTER n > 2 RETURN n
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (match_clause
+      (pattern
+        (path
+          (node
+            (identifier)))))
+    (let_clause
+      (let_item
+        (identifier)
+        (binary_expression
+          (property_access
+            (variable
+              (identifier))
+            (identifier))
+          (literal
+            (integer)))))
+    (filter_clause
+      (binary_expression
+        (variable
+          (identifier))
+        (literal
+          (integer))))
     (return_clause
       (projection
         (projection_item
