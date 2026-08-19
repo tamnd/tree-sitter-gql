@@ -605,3 +605,40 @@ RETURN BINDING TABLE $t AS t, graph / home AS n
             (variable
               (identifier)))
           alias: (identifier))))))
+
+================================================================================
+A name that lives for the length of one expression, and the same word as a name
+================================================================================
+
+RETURN LET a = 4, b = a + 1 IN a * b END AS n, let AS w
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (let_expression
+            word: (identifier)
+            (let_expression_item
+              name: (identifier)
+              (literal
+                (integer)))
+            (let_expression_item
+              name: (identifier)
+              (binary_expression
+                (variable
+                  (identifier))
+                (literal
+                  (integer))))
+            body: (binary_expression
+              (variable
+                (identifier))
+              (variable
+                (identifier))))
+          alias: (identifier))
+        (projection_item
+          (variable
+            (identifier))
+          alias: (identifier))))))

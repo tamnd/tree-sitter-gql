@@ -489,6 +489,7 @@ module.exports = grammar({
         $.path_constructor,
         $.graph_reference,
         $.reference_parameter,
+        $.let_expression,
         $.exists_block,
         $.parenthesized_expression,
         $.list,
@@ -506,6 +507,31 @@ module.exports = grammar({
     // for the shape of the text.
     path_constructor: ($) =>
       prec(2, seq(field("name", $.identifier), "[", optional(commaSep1($._expression)), "]")),
+
+    // GE03. A name that stands for a value for the length of one
+    // expression, ISO 20.7, which is the LET clause said in a smaller
+    // place. The `IN` closes the definitions rather than testing
+    // membership, which is the engine's reading too: a test written at
+    // the top of a definition goes in parentheses.
+    let_expression: ($) =>
+      prec(
+        6,
+        seq(
+          field("word", $.identifier),
+          commaSep1($.let_expression_item),
+          kw("IN"),
+          field("body", $._expression),
+          kw("END"),
+        ),
+      ),
+
+    // The definition ends at the `IN`, which is what the precedence
+    // says: the word is also a comparison operator and a definition
+    // holds a whole expression, so the two readings collide and this
+    // is the one taken. A membership test written at the top of a
+    // definition goes in parentheses, and the engine reads it the same
+    // way.
+    let_expression_item: ($) => prec(6, seq(field("name", $._name), "=", $._expression)),
 
     // GE01. A graph written where a value goes, ISO 19.6. The four
     // words are whole references on their own, so nothing follows them
