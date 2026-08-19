@@ -689,3 +689,45 @@ MATCH p = (a)-[e]->(b) RETURN PATH [a, e, b] = p AS same, PATH [a] AS one, path 
           (variable
             (identifier))
           alias: (identifier))))))
+
+================================================================================
+A duration written the way SQL writes one, with the qualifier that reads it
+================================================================================
+
+RETURN INTERVAL '1-2' YEAR TO MONTH AS y, INTERVAL -'3 04:05:06' DAY TO SECOND AS d, INTERVAL '1.5' SECOND(2, 3) AS s
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (interval_literal
+            type: (type_name
+              (identifier))
+            (string)
+            (interval_qualifier
+              (interval_field)
+              (interval_field)))
+          alias: (identifier))
+        (projection_item
+          (interval_literal
+            type: (type_name
+              (identifier))
+            (string)
+            (interval_qualifier
+              (interval_field)
+              (interval_field)))
+          alias: (identifier))
+        (projection_item
+          (interval_literal
+            type: (type_name
+              (identifier))
+            (string)
+            (interval_qualifier
+              (interval_field)
+              (interval_precision
+                (integer)
+                (integer))))
+          alias: (identifier))))))
