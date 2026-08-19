@@ -552,3 +552,56 @@ RETURN 'ab' || UPPER(x) AS v, CHAR_LENGTH(TRIM(y)) AS n
               (variable
                 (identifier))))
           (identifier))))))
+
+================================================================================
+A graph written where a value goes, by word and by path
+================================================================================
+
+RETURN CURRENT_PROPERTY_GRAPH AS c, /social/people AS p, GRAPH $g AS g
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (graph_reference)
+          alias: (identifier))
+        (projection_item
+          (graph_reference
+            (graph_path
+              (identifier)
+              (identifier)))
+          alias: (identifier))
+        (projection_item
+          (reference_parameter
+            name: (identifier)
+            (parameter))
+          alias: (identifier))))))
+
+================================================================================
+A word in front of a reference, and a name with a slash after it
+================================================================================
+
+RETURN BINDING TABLE $t AS t, graph / home AS n
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (return_clause
+      (projection
+        (projection_item
+          (reference_parameter
+            (identifier)
+            name: (identifier)
+            (parameter))
+          alias: (identifier))
+        (projection_item
+          (binary_expression
+            (variable
+              (identifier))
+            (variable
+              (identifier)))
+          alias: (identifier))))))

@@ -200,6 +200,38 @@
           "value": "CURRENT_GRAPH"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[hH][oO][mM][eE]_[pP][rR][oO][pP][eE][rR][tT][yY]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "HOME_PROPERTY_GRAPH"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[hH][oO][mM][eE]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "HOME_GRAPH"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -258,6 +290,68 @@
             {
               "type": "SYMBOL",
               "name": "graph_name"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "TOKEN",
+                            "content": {
+                              "type": "PREC",
+                              "value": 1,
+                              "content": {
+                                "type": "PATTERN",
+                                "value": "[pP][rR][oO][pP][eE][rR][tT][yY]"
+                              }
+                            }
+                          },
+                          "named": false,
+                          "value": "PROPERTY"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "ALIAS",
+                      "content": {
+                        "type": "TOKEN",
+                        "content": {
+                          "type": "PREC",
+                          "value": 1,
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[gG][rR][aA][pP][hH]"
+                          }
+                        }
+                      },
+                      "named": false,
+                      "value": "GRAPH"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "SYMBOL",
+              "name": "parameter"
             }
           ]
         }
@@ -3873,6 +3967,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "graph_reference"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reference_parameter"
+        },
+        {
+          "type": "SYMBOL",
           "name": "exists_block"
         },
         {
@@ -3971,6 +4073,141 @@
           }
         ]
       }
+    },
+    "graph_reference": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[cC][uU][rR][rR][eE][nN][tT]_[pP][rR][oO][pP][eE][rR][tT][yY]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "CURRENT_PROPERTY_GRAPH"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[cC][uU][rR][rR][eE][nN][tT]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "CURRENT_GRAPH"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[hH][oO][mM][eE]_[pP][rR][oO][pP][eE][rR][tT][yY]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "HOME_PROPERTY_GRAPH"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PREC",
+              "value": 1,
+              "content": {
+                "type": "PATTERN",
+                "value": "[hH][oO][mM][eE]_[gG][rR][aA][pP][hH]"
+              }
+            }
+          },
+          "named": false,
+          "value": "HOME_GRAPH"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "graph_path"
+        }
+      ]
+    },
+    "graph_path": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "/"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_name"
+                },
+                {
+                  "type": "STRING",
+                  "value": "/"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_name"
+          }
+        ]
+      }
+    },
+    "reference_parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "identifier"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter"
+        }
+      ]
     },
     "exists_block": {
       "type": "CHOICE",
