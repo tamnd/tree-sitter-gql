@@ -7302,7 +7302,7 @@
     },
     "parameter": {
       "type": "PATTERN",
-      "value": "\\$[A-Za-z0-9_]+"
+      "value": "\\$\\$?[A-Za-z0-9_]+"
     },
     "literal": {
       "type": "CHOICE",

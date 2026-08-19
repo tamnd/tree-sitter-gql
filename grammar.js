@@ -864,7 +864,14 @@ module.exports = grammar({
         ),
       ),
 
-    parameter: ($) => /\$[A-Za-z0-9_]+/,
+    // ISO 21.10 writes a parameter two ways. One dollar sign is a
+    // general parameter, which holds a value, and two is a
+    // substituted parameter, which is how a parameter holding a
+    // reference is written. They are one rule here because they are
+    // one thing to read: the name is the same name, and which of the
+    // two a statement may write where is a question about the value,
+    // not about the characters.
+    parameter: ($) => /\$\$?[A-Za-z0-9_]+/,
 
     literal: ($) =>
       choice(kw("NULL"), kw("TRUE"), kw("FALSE"), $.integer, $.float, $.string),

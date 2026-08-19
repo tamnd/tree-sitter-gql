@@ -581,6 +581,30 @@ RETURN CURRENT_PROPERTY_GRAPH AS c, /social/people AS p, GRAPH $g AS g
           alias: (identifier))))))
 
 ================================================================================
+A reference parameter written with the two dollar signs the standard writes
+================================================================================
+
+USE GRAPH $$g MATCH (p) RETURN $n AS n
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (use_clause
+      (graph_ref
+        (parameter)))
+    (match_clause
+      (pattern
+        (path
+          (node
+            name: (identifier)))))
+    (return_clause
+      (projection
+        (projection_item
+          (parameter)
+          alias: (identifier))))))
+
+================================================================================
 A word in front of a reference, and a name with a slash after it
 ================================================================================
 
