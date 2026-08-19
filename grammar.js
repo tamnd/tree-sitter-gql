@@ -14,7 +14,7 @@
 //
 // It is written from `docs/grammar.ebnf`, production by production, and
 // checked against the engine by parsing every query in the conformance
-// corpus: 926 statements the engine accepts, which must not hold an
+// corpus: 981 statements the engine accepts, which must not hold an
 // error node here. That is the whole gate. A grammar checked only by
 // its own test corpus is a grammar that agrees with its author.
 //
@@ -86,11 +86,16 @@ module.exports = grammar({
     // optional here. Which clauses are writes is a question about
     // meaning rather than shape, so this asks the weaker question a
     // grammar can ask: a statement is clauses, and it either ends in a
-    // RETURN or ends.
+    // result statement or ends. FINISH is the other result statement:
+    // it says the query has no result, so nothing may follow it and
+    // nothing may read from it, which is where a RETURN stands too.
     query: ($) =>
       seq(
         optional($.use_clause),
-        choice(seq(repeat($._reading_clause), $.return_clause), repeat1($._reading_clause)),
+        choice(
+          seq(repeat($._reading_clause), choice($.return_clause, $.finish_clause)),
+          repeat1($._reading_clause),
+        ),
       ),
 
     use_clause: ($) => seq(kw("USE"), $.graph_ref),
@@ -112,6 +117,7 @@ module.exports = grammar({
         $.call_clause,
         $.unwind_clause,
         $.with_clause,
+        $.order_by_and_page,
       ),
 
     match_clause: ($) =>
@@ -205,17 +211,48 @@ module.exports = grammar({
 
     return_clause: ($) => seq(kw("RETURN"), $.projection),
 
+    finish_clause: ($) => kw("FINISH"),
+
     where_clause: ($) => seq(kw("WHERE"), $._expression),
 
+    // The tail is greedy: where a projection could end and an order by
+    // and page statement could begin, the words belong to the
+    // projection. That is the engine's reading, and it is why the
+    // statement form below is only ever what is left over.
     projection: ($) =>
-      seq(
-        optional(kw("DISTINCT")),
-        choice("*", $.projection_item),
-        repeat(seq(",", $.projection_item)),
-        optional($.order_by),
-        optional(seq(kw("SKIP"), $._expression)),
-        optional(seq(kw("LIMIT"), $._expression)),
+      prec.right(
+        seq(
+          optional(kw("DISTINCT")),
+          choice("*", $.projection_item),
+          repeat(seq(",", $.projection_item)),
+          optional($.order_by),
+          optional($.page_offset),
+          optional($.page_limit),
+        ),
       ),
+
+    // The same three parts standing where a statement stands, which is
+    // the standard's order by and page statement. Each part is a whole
+    // statement on its own, so the choice is written out rather than
+    // built from three optionals: a rule that matches the empty string
+    // is one tree-sitter refuses, and it would make every clause
+    // boundary a place this rule could be.
+    // It is greedy for the same reason the projection is: `SKIP 1
+    // LIMIT 2` is one statement that takes a window, and not a
+    // statement that skips followed by a statement that limits.
+    order_by_and_page: ($) =>
+      prec.right(
+        choice(
+          seq($.order_by, optional($.page_offset), optional($.page_limit)),
+          seq($.page_offset, optional($.page_limit)),
+          $.page_limit,
+        ),
+      ),
+
+    // OFFSET is the standard's word for it and SKIP is the synonym.
+    page_offset: ($) => seq(choice(kw("OFFSET"), kw("SKIP")), $._expression),
+
+    page_limit: ($) => seq(kw("LIMIT"), $._expression),
 
     projection_item: ($) => seq($._expression, optional(seq(kw("AS"), field("alias", $._name)))),
 

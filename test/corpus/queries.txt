@@ -47,9 +47,94 @@ RETURN q.name AS who ORDER BY who DESC LIMIT 5
           (sort_item
             (variable
               (identifier))))
-        (literal
-          (integer))))))
+        (page_limit
+          (literal
+            (integer)))))))
 
+================================================================================
+The order by and page standing where a statement stands
+================================================================================
+
+MATCH (p:Person) ORDER BY p.age DESC SKIP 1 LIMIT 3 RETURN p.name AS who
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (match_clause
+      (pattern
+        (path
+          (node
+            (identifier)
+            (label_expr
+              (label
+                (identifier)))))))
+    (order_by_and_page
+      (order_by
+        (sort_item
+          (property_access
+            (variable
+              (identifier))
+            (identifier))))
+      (page_offset
+        (literal
+          (integer)))
+      (page_limit
+        (literal
+          (integer))))
+    (return_clause
+      (projection
+        (projection_item
+          (property_access
+            (variable
+              (identifier))
+            (identifier))
+          (identifier))))))
+
+================================================================================
+A limit with nothing in front of it is a whole statement
+================================================================================
+
+MATCH (p) LIMIT 2 RETURN p
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (match_clause
+      (pattern
+        (path
+          (node
+            (identifier)))))
+    (order_by_and_page
+      (page_limit
+        (literal
+          (integer))))
+    (return_clause
+      (projection
+        (projection_item
+          (variable
+            (identifier)))))))
+
+================================================================================
+A query that finishes answers nothing
+================================================================================
+
+MATCH (p:Person) FINISH
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (query
+    (match_clause
+      (pattern
+        (path
+          (node
+            (identifier)
+            (label_expr
+              (label
+                (identifier)))))))
+    (finish_clause)))
 ================================================================================
 An optional match keeps the row it did not match
 ================================================================================
@@ -178,10 +263,12 @@ MATCH (p) RETURN DISTINCT p.city AS c ORDER BY c ASC NULLS LAST SKIP 10 LIMIT 10
             (variable
               (identifier))
             (null_ordering)))
-        (literal
-          (integer))
-        (literal
-          (integer))))))
+        (page_offset
+          (literal
+            (integer)))
+        (page_limit
+          (literal
+            (integer)))))))
 
 ================================================================================
 Two statements in one file
