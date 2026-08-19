@@ -100,6 +100,13 @@
   "DETACH"
   "NODETACH"
   "CALL"
+  "YEAR"
+  "MONTH"
+  "DAY"
+  "HOUR"
+  "MINUTE"
+  "SECOND"
+  "TO"
 ] @keyword
 
 ; literals
